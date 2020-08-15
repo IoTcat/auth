@@ -1,0 +1,84 @@
+<html>
+<head>
+<title>Ushio Auth</title>
+<script src="https://cdn.jsdelivr.net/npm/fp3@3.0.3/dist/fp.min.js"></script>
+<script>
+/* func define */
+var cookie={set:function(e,r,a){if(a==undefined)var a=3e3;var t=new Date;t.setTime(t.getTime()+a*24*60*60*1e3);document.cookie=e+"="+escape(r)+";expires="+t.toGMTString()+";path=/"},get:function(e){var r,a=new RegExp("(^| )"+e+"=([^;]*)(;|$)");if(r=document.cookie.match(a)){return unescape(r[2])}else{return null}},del:function(e){var r=new Date;r.setTime(r.getTime()-1);var a,t=new RegExp("(^| )"+e+"=([^;]*)(;|$)");if(a=document.cookie.match(t)){var n=unescape(a[2])}else{var n=null}if(n!=null){document.cookie=e+"="+n+";expires="+r.toGMTString()}}}
+
+function getQueryString(name) {
+    let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    let r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return decodeURIComponent(r[2]);
+    };
+    return null;
+}
+function randomStr(length) {
+    var result = '', chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+    for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+}
+
+
+
+/* get Ip */
+var ip = '';
+function getIp(){
+    return new Promise((resolve, reject)=>{
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function(){
+            if(ajax.readyState == 4 && ajax.status == 200){
+                var data = JSON.parse(ajax.responseText);
+                ip = data.ip;
+                resolve(ip);
+            }
+        }
+        ajax.open('get','https://log.yimian.xyz/iis.php');
+        ajax.send(null);
+    });
+}
+
+
+/* get father page mask */
+var mask = getQueryString('mask');
+
+/* break cookie rule */
+document.cookie = 'cross-site-cookie2=noneCookie; SameSite=None; Secure';
+var isCrossDomain = true;
+cookie.set('_icd', '15');
+if(cookie.get('_icd') == '15'){
+    isCrossDomain = false;
+}
+
+
+var token = '';
+console.log(cookie.get('_token'))
+/* get local token */
+if(cookie.get('_token')){
+    token = cookie.get('_token');
+}else{
+    if(!isCrossDomain){
+      token = randomStr(64);    
+      cookie.set('_token', token);
+    }
+}
+
+
+/* web request */
+;(async function(){
+    var ajax = new XMLHttpRequest();
+    var fp_v = await fp;
+    var ip = await getIp();
+    if(token){
+        ajax.open('get','checkin.php?fp='+fp_v+'&token='+token+'&mask='+mask+'&ip='+ip);
+        if(fp_v && mask && token) ajax.send(null);
+    }else{ 
+        ajax.open('get','checkin.php?fp='+fp_v+'&ip='+ip+'&mask='+mask);
+        if(fp_v && mask && ip) ajax.send(null);
+    }
+})()
+</script>
+</head>
+<body></body>
+</html>
