@@ -34,7 +34,7 @@ if(isset($ip) && !isset($token)){
 if(!$redis->exists('auth/token/'.$token)){
     $redis->set('session/redirect/'.$id, $token);
     if(!$redis->exists('session/dialog/'.$token)){
-        $redis->hMset('session/dialog/'.$token, array("group"=>"anonymous"));
+        $redis->hSet('session/dialog/'.$token, "group", "anonymous");
     }
     echo $token;
     die();
@@ -46,7 +46,7 @@ if(!db__rowNum($cnn, "account", "hash", $hash)){
     $redis->set('session/redirect/'.$id, $token);
     $redis->del('auth/token/'.$token);
     if(!$redis->exists('session/dialog/'.$token)){
-        $redis->hMset('session/dialog/'.$token, array("group"=>"anonymous"));
+        $redis->hSet('session/dialog/'.$token, "group", "anonymous");
     }
 }else{
     $redis->set('session/redirect/'.$id, $token);
