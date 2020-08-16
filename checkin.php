@@ -52,7 +52,9 @@ if(!db__rowNum($cnn, "account", "hash", $hash)){
     $redis->set('session/redirect/'.$id, $token);
     if(!$redis->exists('session/dialog/'.$hash)){
         $data = db__getData($cnn, "account", "hash", $hash);
-        $redis->hMset('session/dialog/'.$hash, $data[0]);
+        foreach($data[0] as $key=>$val){
+            $redis->hSet('session/dialog/'.$hash, $key, $val);
+        }
     }
 }
 
