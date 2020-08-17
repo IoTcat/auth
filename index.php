@@ -19,6 +19,7 @@ if(!isset($from)){
 if (!isset($_COOKIE["_token"])){
     $token = hash('sha256', $from.time());
     setcookie("_token", $token, time()+6*30*24*3600);
+    $redis->hSet('session/dialog/'.$token, 'group', 'anonymous');
 }else{
     $token = $_COOKIE['_token'];
 }
@@ -26,7 +27,7 @@ if (!isset($_COOKIE["_token"])){
 /* set tmp seed */
 $seed = hash('sha256', time().$from);
 $redis->set('auth/seed/'.$seed, $token);
-$redis->expire('auth/seed/'.$seed, 30);
+$redis->expire('auth/seed/'.$seed, 60);
 
 echo '<html><head><script>block_aplayer = true;</script><script src="https://cdn.yimian.xyz/ushio-js/ushio-head.min.js"></script>';
 echo '<script src="https://cdn.yimian.xyz/fp/fp.min.js"></script>';

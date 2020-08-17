@@ -12,6 +12,8 @@ if(isset($_COOKIE['_token']) && db__rowNum($cnn, "token", "token", $_COOKIE['_to
     ), array(
         "token"=>$_COOKIE['_token']
     ));
+    $redis->hSet('session/dialog/'.$_COOKIE['_token'], 'group', 'anonymous');
 }
+
 
 echo '<script>window.location.href="https://login.yimian.xyz/"</script>';
