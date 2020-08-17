@@ -3,6 +3,11 @@ include '/mnt/config/dbKeys/auth.php';
 include '/mnt/config/php/config.php';
 /**database connection**/
 
+
+$redis = new redis();
+$redis->connect('redis',6379);
+
+
 //connect to database
 function db__connect($servername="",$username="",$password="",$dbname="")
 {
@@ -37,7 +42,7 @@ function db__connect($servername="",$username="",$password="",$dbname="")
 }
 
 //get table row number::(data_cnnct var,table name) ::(row number)
-function db__rowNum($conn,$table,$clmnName="",$value="",$clmnName2="",$value2="")
+function db__rowNum($conn,$table,$clmnName="",$value="",$clmnName2="",$value2="",$clmnName3="",$value3="",$clmnName4="",$value4="")
 {
 	
 	$table=db__antisql($table);
@@ -49,7 +54,9 @@ function db__rowNum($conn,$table,$clmnName="",$value="",$clmnName2="",$value2=""
 	
 	if($clmnName=="") $sql = "SELECT COUNT(*) FROM $table";
 	elseif($clmnName2=="") $sql = "SELECT COUNT(*) FROM $table where $clmnName='$value'";
-	else $sql = "SELECT COUNT(*) FROM $table where $clmnName='$value' AND $clmnName2='$value2'";
+	elseif($clmnName3=="") $sql = "SELECT COUNT(*) FROM $table where $clmnName='$value' AND $clmnName2='$value2'";
+	elseif($clmnName4=="") $sql = "SELECT COUNT(*) FROM $table where $clmnName='$value' AND $clmnName2='$value2' AND $clmnName3='$value3'";
+    else $sql = "SELECT COUNT(*) FROM $table where $clmnName='$value' AND $clmnName2='$value2' AND $clmnName3='$value3' AND $clmnName4='$value4'";
 	
 	$row_count = $conn->query($sql);   
 	list($row_num) = $row_count->fetch_row(); 
