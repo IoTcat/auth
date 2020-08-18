@@ -2,6 +2,8 @@
 
 include './functions.php';
 
+$from = $_REQUEST['from'];
+
 
 $cnn = db__connect();
 
@@ -15,5 +17,7 @@ if(isset($_COOKIE['_token']) && db__rowNum($cnn, "token", "token", $_COOKIE['_to
     $redis->hSet('session/dialog/'.$_COOKIE['_token'], 'group', 'anonymous');
 }
 
-
-echo '<script>window.location.href="https://login.yimian.xyz/"</script>';
+if($from)
+    echo '<script>window.location.href="'.base64_decode($from).'"</script>';
+else
+    echo '<script>window.location.href="https://login.yimian.xyz/"</script>';
