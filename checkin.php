@@ -9,7 +9,7 @@ if(!isset($hash)) die();
 if(!isset($from)) die();
 
 if(strlen($hash) != 64){
-    echo "<script>alert('Illegal Hash!!');window.location.href='https://login.yimian.xyz/'</script>";
+    echo "<script>alert('Illegal Hash!!');window.location.replace('https://login.yimian.xyz/')</script>";
     die();
 }
 
@@ -46,7 +46,7 @@ echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><titl
 
 
 if(!db__getData($cnn, "account", "hash", $hash)[0]['nickname']){
-    echo "<script>window.location.href='https://login.yimian.xyz/setNickname.html?from=$from'</script></body></html>";
+    echo "<script>window.location.replace('https://login.yimian.xyz/setNickname.html?from=$from')</script></body></html>";
 }else{
-    echo "<script>window.location.href='$from'</script></body></html>";
+    echo "<script>window.location.replace('$from')</script></body></html>";
 }

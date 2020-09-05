@@ -18,6 +18,6 @@ if(isset($_COOKIE['_token']) && db__rowNum($cnn, "token", "token", $_COOKIE['_to
 }
 
 if($from)
-    echo '<script>window.location.href="'.base64_decode($from).'"</script>';
+    echo '<script>window.location.replace("'.base64_decode($from).'")</script>';
 else
-    echo '<script>window.location.href="https://login.yimian.xyz/"</script>';
+    echo '<script>window.location.replace("https://login.yimian.xyz/")</script>';

@@ -36,7 +36,7 @@ echo "<script>$.get('https://log.yimian.xyz/iis.php', async (data)=>{
     data = JSON.parse(data);
     $.get('/setFip.php?seed=$seed&fp='+(await fp)+'&ip='+data.ip, (res)=>{
         if(res.code == 200){
-            window.location.href='$from';
+            window.location.replace('$from');
             return;
 }else if(res.code == 500){
     cookie.del('_token');
