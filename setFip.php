@@ -41,7 +41,7 @@ if(strlen($token)!=64){
 
 //good
 $redis->set('auth/fip/'.$fip, $token);
-$redis->expire('auth/fip/'.$fip, 60);
+$redis->expire('auth/fip/'.$fip, 60*60*3);
 echo json_encode(array(
     "code"=>200
 ));
