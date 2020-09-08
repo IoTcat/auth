@@ -22,6 +22,12 @@ mask1 mask2 mask3
 
 每次用户登录或注册时，系统所做的事情是在服务器端将token与代表用户的hash联系起来。用户登出时，服务器端的token和hash将断开连接，用户便退出来了。
 
+```
+        hash
+    /    |    \
+token1 token2 token3
+```
+
 
 ## 登录逻辑
 
