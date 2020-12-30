@@ -1,5 +1,6 @@
 <?php
 include '/mnt/config/dbKeys/auth.php';
+include '/mnt/config/dbKeys/log.php';
 include '/mnt/config/php/config.php';
 /**database connection**/
 
