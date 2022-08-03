@@ -6,7 +6,7 @@ $from = $_REQUEST['from'];
 
 /* deal from */
 if(!isset($from)){
-    $from = 'https://ushio.cool/';
+    $from = 'https://ushio.yimian.xyz/';
 }else{
     try{
         $from = base64_decode($from);
